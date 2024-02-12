@@ -10,7 +10,7 @@ def plot_arrays(x_values, y_values):
     plt.scatter(x_values, y_values)
 
     # Set labels and title
-    plt.xlabel('X Axis')
+    plt.xlabel('X Axis')    
     plt.ylabel('Y Axis')
     plt.title('X, Y axis coordinates')
 
@@ -20,8 +20,29 @@ def plot_arrays(x_values, y_values):
 def new_coordinates(x1, y1, distance_total, distance_x, azimuth):
     azimuth_rad = math.radians(azimuth)
 
-    angle_rad = math.asin(distance_x / distance_total)
+    if x1 > 0 and y1 > 0:
+        angle_rad = math.asin(distance_x / distance_total)
+        print(angle_rad)
+    elif x1 > 0 and y1 < 0:
+        angle_rad = math.radians(90) + math.acos(distance_x / distance_total)
+        print(angle_rad)
+    elif x1 < 0 and y1 < 0:
+        angle_rad = (math.radians(180) + math.asin(distance_x / distance_total)) * -1
+        print(angle_rad)
+    elif x1 < 0 and y1 > 0:
+        angle_rad = math.asin(distance_x / distance_total)
+        print(angle_rad)
+
+    x2 = x1
+    y2 = y1
+
     angle_total = math.degrees(angle_rad + azimuth_rad)
+
+    # if angle_total < 0:
+    #     angle_total = 360 - angle_total
+    # elif angle_total > 360:
+    #     angle_total = angle_total - 360
+    
     angle_total_rad = angle_rad + azimuth_rad
     print(f"angle = {math.degrees(angle_rad)}, angle + azimuth = {angle_total}")
 
@@ -91,6 +112,7 @@ for a_x in a_x_list:
     s_x_sum += s_x
     x_list.append(s_x_sum)
     
+print(x_list, y_list)
 
 print(f"\nИтого пройдено по оси x: {round(s_x_sum, 4)} м\n")
 
@@ -100,13 +122,15 @@ print(f"\nИтого пройдено по обеим осям: {round(s_total, 
 for a in range(0, len(y_list)):
     x52 = x_list[a]
     y52 = y_list[a]
-    x53, y53 = new_coordinates(x52, y52, s_total, s_x_sum, 45)
+    s_total52 = math.sqrt(math.pow(x52, 2) + math.pow(y52, 2))
+    x53, y53 = new_coordinates(x52, y52, s_total52, x52, azimuth_input)
     new_x_list.append(x53)
     new_y_list.append(y53)
 
-x2, y2 = new_coordinates(x1, y1, s_total, s_x_sum, azimuth_input)
-print(f"\nСтарые координаты: {x1}, {y1}")
-print(f"\nНовые координаты: {x2}, {y2}\n")
+
+# x2, y2 = new_coordinates(x1, y1, s_total, s_x_sum, azimuth_input)
+# print(f"\nСтарые координаты: {x1}, {y1}")
+# print(f"\nНовые координаты: {x2}, {y2}\n")
 
 # print(plot_arrays(x_list, y_list))
 print(plot_arrays(new_x_list, new_y_list))
