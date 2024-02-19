@@ -2,19 +2,15 @@ import math
 import matplotlib.pyplot as plt
 
 def plot_arrays(x_values, y_values):
-    # Check if the arrays have the same length
     if len(x_values) != len(y_values):
         raise ValueError("Input arrays must have the same length")
 
-    # Create a scatter plot
     plt.scatter(x_values, y_values)
 
-    # Set labels and title
     plt.xlabel('X Axis')    
     plt.ylabel('Y Axis')
     plt.title('X, Y axis coordinates')
 
-    # Display the plot
     plt.show()
 
 def rotate_vectors(x_list, y_list, angle):
@@ -22,23 +18,23 @@ def rotate_vectors(x_list, y_list, angle):
     angle = math.radians(360 - angle)
     
     for a in range(1, len(x_list)):
-        # Step 1: Move the origin of the vector to (0, 0)
+        # Move the origin of the vector to (0, 0)
         x_shifted = x_list[a] - x_list[a-1]
         y_shifted = y_list[a] - y_list[a-1]
         
-        # Step 2: Rotate the shifted vector
+        # Rotate the shifted vector
         x_rotated = x_shifted * math.cos(angle) - y_shifted * math.sin(angle)
         y_rotated = x_shifted * math.sin(angle) + y_shifted * math.cos(angle)
         
-        # Step 3: Move the end point back
+        # Move the end point back
         x_endpoint = x_rotated + new_x_list[a-1]
         y_endpoint = y_rotated + new_y_list[a-1]
         
         new_x_list.append(x_endpoint)
         new_y_list.append(y_endpoint)
     
-    print(new_x_list)
-    print(new_y_list)
+    # print(new_x_list)
+    # print(new_y_list)
 
     return new_x_list, new_y_list
 
@@ -99,11 +95,11 @@ print(f"\nИтого пройдено по оси x: {round(s_x_sum - x1, 4)} м
 s_total = math.sqrt(math.pow(s_x_sum - x1, 2) + math.pow(s_y_sum - y1, 2)) # по вектору
 print(f"\nИтого пройдено по обеим осям: {round(s_total, 4)} м\n")
 
-# x2, y2 = new_coordinates(x1, y1, s_total, s_x_sum, azimuth_input)
-# print(f"\nСтарые координаты: {x1}, {y1}")
-# print(f"\nНовые координаты: {x2}, {y2}\n")
 
 # plot_arrays(x_list, y_list)
 
 new_x_list, new_y_list = rotate_vectors(x_list, y_list, azimuth_input)
+print(f"\nСтарые координаты: {x1}, {y1}")
+print(f"\nНовые координаты: {new_x_list[-1]}, {new_y_list[-1]}\n")
 plot_arrays(new_x_list, new_y_list)
+
